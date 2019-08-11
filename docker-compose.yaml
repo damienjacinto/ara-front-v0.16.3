@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres:10
+    environment:
+      - POSTGRES_USER=ara
+      - POSTGRES_PASSWORD=ara
+      - POSTGRES_DB=ara
+    volumes:
+      - my_dbdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+  ara:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    ports:
+      - 8000:8000
+    environment:
+      - ARA_DB_HOST=db
+volumes:
+  my_dbdata:
